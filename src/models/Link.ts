@@ -1,21 +1,24 @@
 import mongoose from "mongoose";
 
 const getMongoLink = () => {
-    const link = process.env.DB_LINK_URL
-    if (!link) {
-        throw new Error("Link is not provided")
-    }
+  const link = process.env.DB_LINK_URL;
+  if (!link) {
+    throw new Error("Link is not provided");
+  }
 
-    return link
-}
+  return link;
+};
 
 const linkConnection = mongoose.createConnection(getMongoLink());
 
-const linkSchema = new mongoose.Schema({
+const linkSchema = new mongoose.Schema(
+  {
     link: String,
     alias: { type: String, unique: true },
     authorID: String,
-}, { timestamps: true }
-)
+  },
+  { timestamps: true },
+);
 
-export default linkConnection.models['Link'] || linkConnection.model("Link", linkSchema)
+export default linkConnection.models["Link"] ||
+  linkConnection.model("Link", linkSchema);

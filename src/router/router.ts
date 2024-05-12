@@ -1,24 +1,25 @@
-import { Hono } from 'hono';
-import { 
-    deleteAllLinks, 
-    getLinkInfo, 
-    redirect, 
-    shorten 
-} from '../handlers/shortener.controller';
-import { authMiddleware } from '../middleware/auth';
-import { logger } from 'hono/logger'
+import { Hono } from "hono";
+import {
+  deleteAllLinks,
+  getLinkInfo,
+  redirect,
+  shorten,
+} from "../handlers/shortener.controller";
+import { authMiddleware } from "../middleware/auth";
+import { logger } from "hono/logger";
 
 export const routerSetup = async (app: Hono) => {
-    
-    app.use(logger())
-    app.use("/all", authMiddleware)
-    app.use("/info/*", authMiddleware)
+  app.use(logger());
+  
+  app.use("/all", authMiddleware);
+  app.use("/info/*", authMiddleware);
+  
+  app.get("/healthcheck", (c) => c.text("ok", 200))
+  
+  app.get("/:alias", redirect);
+  app.get("/info/:alias", getLinkInfo);
 
-    app.get("/:alias", redirect)
-    app.get("/info/:alias", getLinkInfo)
-    
-    app.post("/shorten", shorten)
+  app.post("/shorten", shorten);
 
-    app.delete("/all", deleteAllLinks)
-
-}
+  app.delete("/all", deleteAllLinks);
+};

@@ -1,16 +1,16 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 import { routerSetup } from "../src/router/router";
 
-const app = new Hono()
+const app = new Hono();
 
 const main = () => {
   try {
-    routerSetup(app)
+    routerSetup(app);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-}
+};
 
-main()
+main();
 
-export default app
+export default app;
